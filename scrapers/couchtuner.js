@@ -22,21 +22,13 @@ let jsdomEnv = function(url) {
 
 Couchtuner.prototype.scrapeTV = function(rel) {
   return jsdomEnv(this.base + rel).then(($) => {
-    let columns = $("div[style='width: 160px; padding-right: 20px; float: left;']");
-
-    let anchors = [];
-    columns.each((i, column) => {
-      let anchorTags = $(column).find('ul > li > strong > a');
-
-      anchorTags.each((i, anchorTag) => {
-        anchors.push({
-          name:anchorTag.innerHTML,
-          link:anchorTag.href
-        });
-      });
-    });
-
-    return anchors;
+    return $('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a')
+              .map((anchor) => {
+                return {
+                  name:anchor.innerHTML,
+                  link:anchor.href
+                };
+              });
   });
 };
 
