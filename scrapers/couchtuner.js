@@ -42,14 +42,17 @@ Couchtuner.prototype.scrapeTV = function(rel) {
 
 Couchtuner.prototype.scrapeEpisodes = function(rel) {
   return jsdomEnv(this.base + rel).then(($) => {
-    let anchors = $('.entry > ul > li > strong > a');
-
-    return anchors.map((i, anchor) => {
+    let missed = [];
+    let episodes = $('.entry > ul > li > strong > a').map((i, anchor) => {
       let name = anchor.innerHTML;
       let link = anchor.href;
 
       let matches = name.match(/.+[Ss](?:eason)?\s?(\d+)\s?[Ee](?:pisode)?\s?(\d+)/);
       if(matches === null) {
+        missed.push({
+          name:name,
+          link:link
+        });
         return;
       }
 
@@ -59,6 +62,9 @@ Couchtuner.prototype.scrapeEpisodes = function(rel) {
         episode:matches[2]
       };
     });
+
+    return { episodes, missed };
+
   });
 }
 

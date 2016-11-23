@@ -13,11 +13,17 @@ tape('TV', (t) => {
 });
 
 tape('Episodes', (t) => {
-  couch.scrapeEpisodes('watch-the-walking-dead-online-streamin').then((episodes) => {
+  couch.scrapeEpisodes('watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
-      episodes.length,
+      result.episodes.length,
       91,
       'Number of episodes'
-    )
+    );
+
+    t.equal(
+      result.missed.length,
+      2,
+      'Number of mismatched links'
+    );
   }).catch(t.fail).then(t.end);
 });
