@@ -11,9 +11,13 @@ tape('TV', (t) => {
     );
   }).catch(t.fail).then(t.end);
 });
-/*
+
 tape('Episodes', (t) => {
-  couch.scrapeSeasons('watch-the-walking-dead-online-streamin').then((seasons) => {
-    console.log(seasons.length);
-  });
-});*/
+  couch.scrapeEpisodes('watch-the-walking-dead-online-streamin').then((episodes) => {
+    t.equal(
+      episodes.length,
+      91,
+      'Number of episodes'
+    )
+  }).catch(t.fail).then(t.end);
+});

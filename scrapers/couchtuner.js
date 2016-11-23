@@ -39,16 +39,27 @@ Couchtuner.prototype.scrapeTV = function(rel) {
     return anchors;
   });
 };
-/*
-Couchtuner.prototype.scrapeSeasons = function(rel) {
-  let url = this.base + rel;
 
-  return new Promise((resolve, reject) => {
-    jsdom.env({
-      url:url,
+Couchtuner.prototype.scrapeEpisodes = function(rel) {
+  return jsdomEnv(this.base + rel).then(($) => {
+    let anchors = $('.entry > ul > li > strong > a');
 
-    })
+    return anchors.map((i, anchor) => {
+      let name = anchor.innerHTML;
+      let link = anchor.href;
+
+      let matches = name.match(/.+[Ss](?:eason)?\s?(\d+)\s?[Ee](?:pisode)?\s?(\d+)/);
+      if(matches === null) {
+        return;
+      }
+
+      return {
+        link:link,
+        season:matches[1],
+        episode:matches[2]
+      };
+    });
   });
-}*/
+}
 
 module.exports = Couchtuner;
