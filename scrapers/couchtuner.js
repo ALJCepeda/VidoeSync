@@ -4,35 +4,39 @@ let jquery = fs.readFileSync('./node_modules/jquery/dist/jquery.min.js');
 
 let Couchtuner = function(base) {
   this.base = base;
-}
+};
 
-Couchtuner.prototype.scrapeTV = function(rel) {
-  let url = this.base + rel;
-
+let jsdomEnv = function(url) {
   return new Promise((resolve, reject) => {
     jsdom.env({
       url: url,
       src: [jquery],
       done: (err, window) => {
         if(err) return reject(err);
-        let $ = window.$;
-        let columns = $("div[style='width: 160px; padding-right: 20px; float: left;']");
 
-        let anchors = [];
-        columns.each((i, column) => {
-          let anchorTags = $(column).find('ul > li > strong > a');
-
-          anchorTags.each((i, anchorTag) => {
-            anchors.push({
-              name:anchorTag.innerHTML,
-              link:anchorTag.href
-            });
-          });
-        });
-
-        return resolve(anchors);
+        return resolve(window.$);
       }
     });
+  });
+};
+
+Couchtuner.prototype.scrapeTV = function(rel) {
+  return jsdomEnv(this.base + rel).then(($) => {
+    let columns = $("div[style='width: 160px; padding-right: 20px; float: left;']");
+
+    let anchors = [];
+    columns.each((i, column) => {
+      let anchorTags = $(column).find('ul > li > strong > a');
+
+      anchorTags.each((i, anchorTag) => {
+        anchors.push({
+          name:anchorTag.innerHTML,
+          link:anchorTag.href
+        });
+      });
+    });
+
+    return anchors;
   });
 };
 /*
@@ -41,7 +45,8 @@ Couchtuner.prototype.scrapeSeasons = function(rel) {
 
   return new Promise((resolve, reject) => {
     jsdom.env({
-      url:''
+      url:url,
+
     })
   });
 }*/
