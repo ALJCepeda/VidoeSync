@@ -6,7 +6,7 @@ let Couchtuner = function(base) {
   this.base = base;
 }
 
-Couchtuner.prototype.scrapeMovies = function(rel) {
+Couchtuner.prototype.scrapeListings = function(rel) {
   let url = this.base + rel;
 
   return new Promise((resolve, reject) => {

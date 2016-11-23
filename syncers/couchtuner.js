@@ -6,7 +6,7 @@ let Couchtuner = function(pool) {
 };
 
 Couchtuner.prototype.syncListings = function() {
-  return this.scraper.scrapeMovies('tv-lists').then((anchors) => {
+  return this.scraper.scrapeListings('tv-lists').then((anchors) => {
     var chain = Promise.resolve();
 
     anchors.forEach((anchor) => {
