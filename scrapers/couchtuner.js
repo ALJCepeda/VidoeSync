@@ -6,12 +6,12 @@ let Couchtuner = function(base) {
   this.base = base;
 }
 
-Couchtuner.prototype.scrapeListings = function(rel) {
+Couchtuner.prototype.scrapeTV = function(rel) {
   let url = this.base + rel;
 
   return new Promise((resolve, reject) => {
     jsdom.env({
-      url: "http://www.couch-tuner.ag/tv-lists/",
+      url: url,
       src: [jquery],
       done: (err, window) => {
         if(err) return reject(err);
@@ -35,5 +35,15 @@ Couchtuner.prototype.scrapeListings = function(rel) {
     });
   });
 };
+/*
+Couchtuner.prototype.scrapeSeasons = function(rel) {
+  let url = this.base + rel;
+
+  return new Promise((resolve, reject) => {
+    jsdom.env({
+      url:''
+    })
+  });
+}*/
 
 module.exports = Couchtuner;

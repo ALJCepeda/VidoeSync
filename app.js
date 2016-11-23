@@ -11,7 +11,7 @@ let pool = new pg.Pool({
 });
 
 let couch = new Couchtuner(pool);
-couch.syncListings().then(() => {
+couch.syncTV().then(() => {
   console.log('Couchtuner tv shows synced');
   pool.end();
 }).catch((err) => {
