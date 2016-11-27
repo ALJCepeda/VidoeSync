@@ -6,6 +6,13 @@ let Couchtuner = function(base) {
   this.base = base;
 };
 
+let doCatch = function(sig) {
+  return function(error) {
+    console.error('Error (Couchtuner/' + sig + ')');
+    console.error(error);
+  }
+}
+
 let jsdomEnv = function(url) {
   return new Promise((resolve, reject) => {
     jsdom.env({
@@ -17,7 +24,7 @@ let jsdomEnv = function(url) {
         return resolve(window.$);
       }
     });
-  });
+  }).catch(doCatch('jsdomEnv'));
 };
 
 Couchtuner.prototype.scrapeTV = function(rel) {
@@ -29,7 +36,7 @@ Couchtuner.prototype.scrapeTV = function(rel) {
                   link:anchor.href
                 };
               });
-  });
+  }).catch(doCatch('scrapeTV'));
 };
 
 Couchtuner.prototype.scrapeEpisodes = function(rel) {
@@ -46,18 +53,30 @@ Couchtuner.prototype.scrapeEpisodes = function(rel) {
           link:link
         });
         return;
-      }
+      } else {
+        let season = matches[1];
+        let episode = matches[2];
 
-      return {
-        link:link,
-        season:matches[1],
-        episode:matches[2]
-      };
+        return { link, season, episode };
+      }
     });
 
     return { episodes, missed };
+  }).catch(doCatch('scrapeEpisodes'));
+};
 
-  });
-}
+Couchtuner.prototype.scrapeWatchIt = function(rel) {
+  return jsdomEnv(this.base + rel).then(($) => {
+    let link = $('.entry > p > strong > a')[0].href;
+    return link;
+  }).catch(doCatch('scrapeWatchIt'));
+};
+
+
+Couchtuner.prototype.scrapeEpisodeLink = function(rel) {
+  return jsdomEnv(this.base + rel).then(($) => {
+
+  }).catch(doCatch('scrapeEpisodeLink'));
+};
 
 module.exports = Couchtuner;
