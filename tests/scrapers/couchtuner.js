@@ -9,10 +9,17 @@ tape('TV', (t) => {
       603,
       'Number of tv listings'
     );
+
+    t.deepEqual(
+      anchors[0],
+      { name: '11.22.63',
+        link: 'http://www.couch-tuner.ag/watch-11-22-63-online/' },
+      'First listing returned by couchtuner'
+    );
   }).catch(t.fail).then(t.end);
 });
 
-tape('Episodes', (t) => {
+tape.skip('Episodes', (t) => {
   couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
@@ -28,7 +35,7 @@ tape('Episodes', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('Watch It', (t) => {
+tape.skip('Watch It', (t) => {
   couch.scrapeWatchIt('http://www.couch-tuner.ag/2015/09/the-walking-dead-s06-greeting-from-the-set-of-season').then((result) => {
     t.equal(
       result,
@@ -38,7 +45,7 @@ tape('Watch It', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('Episode Link', (t) => {
+tape.skip('Episode Link', (t) => {
   couch.scrapeEpisodeID('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
       result,
@@ -46,4 +53,12 @@ tape('Episode Link', (t) => {
       'Returns all embded video links'
     );
   }).catch(t.fail).then(t.end);
+});
+
+tape.skip('First Five', (t) => {
+  couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
+    listings = listings.slice(-5);
+
+    console.log(listings);
+  });
 });

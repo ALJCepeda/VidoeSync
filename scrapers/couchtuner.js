@@ -4,13 +4,6 @@ let jquery = fs.readFileSync('./node_modules/jquery/dist/jquery.min.js');
 let couchjs = fs.readFileSync('./assets/couchtuner.js');
 let Couchtuner = function() { };
 
-let doCatch = function(sig) {
-  return function(error) {
-    console.error('Error (Couchtuner/' + sig + ')');
-    console.error(error);
-  }
-}
-
 let jsdomEnv = function(url) {
   return new Promise((resolve, reject) => {
     jsdom.env({
@@ -22,19 +15,20 @@ let jsdomEnv = function(url) {
         return resolve(window);
       }
     });
-  }).catch(doCatch('jsdomEnv'));
+  });
 };
 
 Couchtuner.prototype.scrapeTV = function(url) {
   return jsdomEnv(url).then((window) => {
-    return window.$('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a')
-              .map((anchor) => {
+    let anchors = window.$('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a');
+
+    return anchors.map((i, anchor) => {
                 return {
                   name:anchor.innerHTML,
                   link:anchor.href
                 };
               });
-  }).catch(doCatch('scrapeTV'));
+  });
 };
 
 Couchtuner.prototype.scrapeEpisodes = function(url) {
@@ -60,14 +54,14 @@ Couchtuner.prototype.scrapeEpisodes = function(url) {
     });
 
     return { episodes, missed };
-  }).catch(doCatch('scrapeEpisodes'));
+  });
 };
 
 Couchtuner.prototype.scrapeWatchIt = function(url) {
   return jsdomEnv(url).then((window) => {
     let link = window.$('.entry > p > strong > a')[0].href;
     return link;
-  }).catch(doCatch('scrapeWatchIt'));
+  });
 };
 
 
@@ -85,7 +79,7 @@ Couchtuner.prototype.scrapeEpisodeID = function(url) {
     });
 
     return links.map(l => l.match(/embed-(\w+)-/)[1]);
-  }).catch(doCatch('scrapeEpisodeLink'));
+  });
 };
 
 module.exports = Couchtuner;
