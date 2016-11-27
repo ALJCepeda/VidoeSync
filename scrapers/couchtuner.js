@@ -23,11 +23,11 @@ Couchtuner.prototype.scrapeTV = function(url) {
     let anchors = window.$('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a');
 
     return anchors.map((i, anchor) => {
-                return {
-                  name:anchor.innerHTML,
-                  link:anchor.href
-                };
-              });
+            return {
+              name:anchor.innerHTML,
+              link:anchor.href
+            };
+          }).toArray();
   });
 };
 

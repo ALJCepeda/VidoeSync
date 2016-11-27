@@ -2,7 +2,7 @@ let tape = require('tape');
 let Couchtuner = require('../../scrapers/couchtuner');
 let couch = new Couchtuner();
 
-tape('TV', (t) => {
+tape.skip('TV', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
     t.equal(
       anchors.length,
@@ -55,7 +55,7 @@ tape.skip('Episode Link', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('First Five', (t) => {
+tape('First Five', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
     listings = listings.slice(-5);
 
