@@ -39,10 +39,10 @@ tape('Watch It', (t) => {
 });
 
 tape('Episode Link', (t) => {
-  couch.scrapeEpisodeLink('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
+  couch.scrapeEpisodeID('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
       result,
-      [ 'http://thevideo.me/embed-br03hat1bewy.html' ],
+      [ 'br03hat1bewy' ],
       'Returns all embded video links'
     );
   }).catch(t.fail).then(t.end);

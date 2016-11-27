@@ -71,7 +71,7 @@ Couchtuner.prototype.scrapeWatchIt = function(url) {
 };
 
 
-Couchtuner.prototype.scrapeEpisodeLink = function(url) {
+Couchtuner.prototype.scrapeEpisodeID = function(url) {
   return jsdomEnv(url).then((window) => {
     let videoAnchors = window.$('.entry > ul > li > a');
 
@@ -84,7 +84,7 @@ Couchtuner.prototype.scrapeEpisodeLink = function(url) {
       links.push(source);
     });
 
-    return links.map(l => l.replace(/-\d+x\d+/, ''));
+    return links.map(l => l.match(/embed-(\w+)-/)[1]);
   }).catch(doCatch('scrapeEpisodeLink'));
 };
 
