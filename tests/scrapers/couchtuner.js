@@ -1,9 +1,9 @@
 let tape = require('tape');
 let Couchtuner = require('../../scrapers/couchtuner');
-let couch = new Couchtuner('http://www.couch-tuner.ag/');
+let couch = new Couchtuner();
 
-tape.skip('TV', (t) => {
-  couch.scrapeTV('tv-lists').then((anchors) => {
+tape('TV', (t) => {
+  couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
     t.equal(
       anchors.length,
       603,
@@ -12,8 +12,8 @@ tape.skip('TV', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('Episodes', (t) => {
-  couch.scrapeEpisodes('watch-the-walking-dead-online-streamin').then((result) => {
+tape('Episodes', (t) => {
+  couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
       91,
@@ -29,7 +29,7 @@ tape.skip('Episodes', (t) => {
 });
 
 tape('Watch It', (t) => {
-  couch.scrapeWatchIt('2015/09/the-walking-dead-s06-greeting-from-the-set-of-season').then((result) => {
+  couch.scrapeWatchIt('http://www.couch-tuner.ag/2015/09/the-walking-dead-s06-greeting-from-the-set-of-season').then((result) => {
     t.equal(
       result,
       'http://couch-tuner.city/5/the-walking-dead-s06-greeting-from-the-set-of-season/',
@@ -38,8 +38,12 @@ tape('Watch It', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('Episode Link', (t) => {
-  couch.scrapeEpisodeLink('5/the-walking-dead-s06-greeting-from-the-set-of-season/').then((result) => {
-    console.log(result);
-  });
+tape('Episode Link', (t) => {
+  couch.scrapeEpisodeLink('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
+    t.deepEqual(
+      result,
+      [ 'http://thevideo.me/embed-br03hat1bewy.html' ],
+      'Returns all embded video links'
+    );
+  }).catch(t.fail).then(t.end);
 });
