@@ -5,7 +5,8 @@ module.exports = {
       name: '11.22.63',
       link: 'http://www.couch-tuner.ag/watch-11-22-63-online/'
     }
-  }, 'scrapeEpisodes': {
+  },
+  'scrapeEpisodes': {
     numOfEpisodes:91,
     numOfMissed:2,
     firstEpisode: {
@@ -13,12 +14,15 @@ module.exports = {
       season: '7',
       episode: '5'
     }
-  }, 'watchIt': {
+  },
+  'watchIt': {
     videoLink:'http://couch-tuner.city/5/the-walking-dead-s06-greeting-from-the-set-of-season/',
     videoLinkPreresolved:'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5'
-  }, 'scrapeEpisodeID': {
+  },
+  'scrapeEpisodeID': {
     videoLinks: [ 'br03hat1bewy' ]
-  }, 'lastFive': {
+  },
+  'lastFive': {
     listings:
       [ { name: 'Your Family Or Mine',
           link: 'http://www.couch-tuner.ag/watch-your-family-or-mine-online/' },
