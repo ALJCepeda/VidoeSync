@@ -19,7 +19,7 @@ tape.skip('TV', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('Episodes', (t) => {
+tape.skip('Episodes', (t) => {
   couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
@@ -53,6 +53,17 @@ tape.skip('Watch It', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
+tape('Watch It - Preresolved', (t) => {
+  //Sometimes `scrapeEpisodes` returns a watchit link
+  couch.scrapeWatchIt('http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5').then((result) => {
+    t.equal(
+      result,
+      'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5',
+      'Returns link if it\'s from `.city` tld'
+    );
+  }).catch(t.fail).then(t.end);
+});
+
 tape.skip('Episode Link', (t) => {
   couch.scrapeEpisodeID('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
@@ -67,19 +78,37 @@ tape.skip('First Five', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
     listings = listings.slice(-5);
 
-    var episodes = Promise.resolve([]);
+    var shows = Promise.resolve({});
 
     listings.forEach((listing) => {
-      episodes = episodes.then((result) => {
+      shows = shows.then((result) => {
         return couch.scrapeEpisodes(listing.link).then((episode) => {
-          result.push(episode);
+          result[listing.name] = episode;
           return result;
         });
       });
     });
 
-    return episodes;
-  }).then((episodes) => {
-    console.log(episodes);
+    return shows;
+  }).then((shows) => {
+    var watchits = Promise.resolve({});
+
+    for(let name in shows) {
+      let entries = shows[name].episodes.slice(-5);
+
+      entries.forEach((entry) => {
+        watchits = watchits.then((result) => {
+          console.log(entry.link);
+          return couch.scrapeWatchIt(entry.link).then((link) => {
+            result[name] = link;
+            return result;
+          });
+        });
+      });
+    }
+
+    return watchits;
+  }).then((watchits) => {
+    console.log(watchits);
   }).catch(t.fail).then(t.end);
 });

@@ -51,13 +51,17 @@ Couchtuner.prototype.scrapeEpisodes = function(url) {
 
         return { link, season, episode };
       }
-    });
+    }).toArray();
 
     return { episodes, missed };
   });
 };
 
 Couchtuner.prototype.scrapeWatchIt = function(url) {
+  if(url.indexOf('http://couch-tuner.city') === 0) {
+    return Promise.resolve(url);
+  }
+  
   return jsdomEnv(url).then((window) => {
     let link = window.$('.entry > p > strong > a')[0].href;
     return link;
