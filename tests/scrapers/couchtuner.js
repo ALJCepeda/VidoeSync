@@ -3,7 +3,7 @@ let Couchtuner = require('../../scrapers/couchtuner');
 let answers = require('./couchtuner-json');
 let couch = new Couchtuner();
 
-tape('scrapeTV', (t) => {
+tape.skip('scrapeTV', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
     t.equal(
       anchors.length,
@@ -19,7 +19,7 @@ tape('scrapeTV', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('scrapeEpisodes', (t) => {
+tape.skip('scrapeEpisodes', (t) => {
   couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
@@ -41,7 +41,7 @@ tape('scrapeEpisodes', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('scrapeWatchIt', (t) => {
+tape.skip('scrapeWatchIt', (t) => {
   couch.scrapeWatchIt('http://www.couch-tuner.ag/2015/09/the-walking-dead-s06-greeting-from-the-set-of-season').then((result) => {
     t.equal(
       result,
@@ -51,7 +51,7 @@ tape('scrapeWatchIt', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('scrapeWatchIt - Preresolved', (t) => {
+tape.skip('scrapeWatchIt - Preresolved', (t) => {
   //Sometimes `scrapeEpisodes` returns a watchit link
   couch.scrapeWatchIt('http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5').then((result) => {
     t.equal(
@@ -62,7 +62,7 @@ tape('scrapeWatchIt - Preresolved', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('scrapeEpisodeID', (t) => {
+tape.skip('scrapeEpisodeID', (t) => {
   couch.scrapeEpisodeID('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
       result,
@@ -102,19 +102,21 @@ tape('Last Five', (t) => {
 
     t.deepEqual(
       shows,
-      answers.lastFive.shows
+      answers.lastFive.shows,
+      'Last 5 episodes of each show'
     );
+
+    return shows;
   }).then((shows) => {
     var watchits = Promise.resolve({});
 
     for(let name in shows) {
-      let entries = shows[name].episodes.slice(-5);
-
-      entries.forEach((entry) => {
+      let links = [];
+      shows[name].episodes.forEach((entry) => {
         watchits = watchits.then((result) => {
-          //console.log(entry.link);
           return couch.scrapeWatchIt(entry.link).then((link) => {
-            result[name] = link;
+            links.push(link);
+            result[name] = links;
             return result;
           });
         });
@@ -123,6 +125,32 @@ tape('Last Five', (t) => {
 
     return watchits;
   }).then((watchits) => {
-    //console.log(watchits);
+    t.deepEqual(
+      watchits,
+      answers.lastFive.watchIts,
+      'Converted episode links into watchit links'
+    );
+    let episodeIDs = Promise.resolve({});
+
+    for(let name in watchits) {
+      let ids = [];
+      watchits[name].forEach((link) => {
+        episodeIDs = episodeIDs.then((result) => {
+          return couch.scrapeEpisodeID(link).then((id) => {
+            ids.push(id);
+            result[name] = ids;
+            return result;
+          });
+        });
+      });
+    }
+
+    return episodeIDs;
+  }).then((ids) => {
+    t.deepEqual(
+      ids,
+      answers.lastFive.ids,
+      'Converted wachits link into video ids'
+    );
   }).catch(t.fail).then(t.end);
 });

@@ -139,6 +139,70 @@ module.exports = {
                       episode: '1' } ],
         missed:[]
       }
+    },
+    watchIts: {
+      'Your Family Or Mine': [
+        'http://couch-tuner.city/5/your-family-or-mine-s1-e7-5-stages/',
+        'http://couch-tuner.city/5/your-family-or-mine-s1-e6-the-speech/',
+        'http://couch-tuner.city/5/your-family-or-mine-s1-e5-christmas-in-july/',
+        'http://couch-tuner.city/5/your-family-or-mine-s1-e4-the-will/',
+        'http://couch-tuner.city/5/your-family-or-mine-s1-e1-pilot/' ],
+      'Your Pretty Face Is Going to Hell': [
+        'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5/',
+        'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e4/',
+        'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e3/',
+        'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e2/',
+        'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e1/' ],
+      'You’re The Worst': [
+        'http://couch-tuner.city/5/youre-the-worst-s1-e5-sunday-funday/',
+        'http://couch-tuner.city/5/youre-the-worst-s1-e4-what-normal-people-do/',
+        'http://couch-tuner.city/5/youre-the-worst-s1-e3-keys-open-doors/',
+        'http://couch-tuner.city/5/youre-the-worst-s1-e2-insouciance/',
+        'http://couch-tuner.city/5/youre-the-worst-s1-e1-pilot/' ],
+      'Zoe Ever After': [
+        'http://couch-tuner.city/5/zoe-ever-after-s1-e5-ghost/',
+        'http://couch-tuner.city/5/zoe-ever-after-s1-e4-zoe-ever-after/',
+        'http://couch-tuner.city/5/zoe-ever-after-s1-e3-zoe-ever-after/',
+        'http://couch-tuner.city/5/zoe-ever-after-s1-e2-the-third-wheel-gets-slapped/',
+        'http://couch-tuner.city/5/zoe-ever-after-s1-e1-pilot/' ],
+      'Zoo 2015': [
+        'http://couch-tuner.city/5/zoo-s1-e5-blame-it-on-leo/',
+        'http://couch-tuner.city/5/zoo-s1-e4-pack-mentality/',
+        'http://couch-tuner.city/5/zoo-s1-e3-the-silence-of-the-cicadas/',
+        'http://couch-tuner.city/5/zoo-s1-e2-fight-or-flight/',
+        'http://couch-tuner.city/5/zoo-s1-e1-first-blood/' ]
+    },
+    'ids': {
+      'Your Family Or Mine':
+         [ [ 'wenckephi41i', 'wenckephi41i', 'wenckephi41i', 'wenckephi41i' ],
+           [ '83cns9iwl2fm', '83cns9iwl2fm', '83cns9iwl2fm', '83cns9iwl2fm' ],
+           [ '8481yp1htw81', '8481yp1htw81', '8481yp1htw81', '8481yp1htw81' ],
+           [ 'k1qifc1rrb7q', 'k1qifc1rrb7q', 'k1qifc1rrb7q' ],
+           [ 'ncxu1hvwp33b', 'ncxu1hvwp33b' ] ],
+      'Your Pretty Face Is Going to Hell':
+        [ [], [], [], [], [] ],
+      'You’re The Worst':
+        [ [ '00ib03ivuzvm', '00ib03ivuzvm', '00ib03ivuzvm', '00ib03ivuzvm' ],
+          [ 'd12b48clv0qq', 'd12b48clv0qq', 'd12b48clv0qq' ],
+          [ '001bu98sjzh8', '001bu98sjzh8', '001bu98sjzh8', '001bu98sjzh8' ],
+          [ 'e22y2x6hisay', 'e22y2x6hisay', 'e22y2x6hisay', 'e22y2x6hisay' ],
+          [ 'lik4d9yg8npe', 'lik4d9yg8npe', 'lik4d9yg8npe', 'lik4d9yg8npe' ] ],
+      'Zoe Ever After':
+        [ [ 'z7i5bpfho5l0', 'z7i5bpfho5l0' ],
+          [ '6gq5ipr3rdly', '6gq5ipr3rdly' ],
+          [ 'ot1k7sowtqtf', 'ot1k7sowtqtf' ],
+          [ 'kr5bqrh8y7my', 'kr5bqrh8y7my' ],
+          [ 'iketn38q4nxd', 'iketn38q4nxd' ] ],
+      'Zoo 2015':
+        [ [ '70scpg2m5knz', '70scpg2m5knz' ],
+          [ 'xbsen1yt7v6p', 'xbsen1yt7v6p' ],
+          [ 'vor31uj5v4lm', 'vor31uj5v4lm' ],
+          [ 'hnrauei70331',
+            'hnrauei70331',
+            'hnrauei70331',
+            'hnrauei70331',
+            'hnrauei70331' ],
+          [ 'p00ees4hkrw9', 'p00ees4hkrw9' ] ]
     }
   }
 };
