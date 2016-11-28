@@ -19,7 +19,7 @@ tape.skip('TV', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('Episodes', (t) => {
+tape('Episodes', (t) => {
   couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
@@ -31,6 +31,14 @@ tape.skip('Episodes', (t) => {
       result.missed.length,
       2,
       'Number of mismatched links'
+    );
+
+    t.deepEqual(
+      result.episodes[0],
+      { link: 'http://www.couch-tuner.ag/2016/11/the-walking-dead-season-7-episode-5-go-getters/',
+        season: '7',
+        episode: '5' },
+      'First episode'
     );
   }).catch(t.fail).then(t.end);
 });
@@ -55,10 +63,23 @@ tape.skip('Episode Link', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('First Five', (t) => {
+tape.skip('First Five', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
     listings = listings.slice(-5);
 
-    console.log(listings);
-  });
+    var episodes = Promise.resolve([]);
+
+    listings.forEach((listing) => {
+      episodes = episodes.then((result) => {
+        return couch.scrapeEpisodes(listing.link).then((episode) => {
+          result.push(episode);
+          return result;
+        });
+      });
+    });
+
+    return episodes;
+  }).then((episodes) => {
+    console.log(episodes);
+  }).catch(t.fail).then(t.end);
 });
