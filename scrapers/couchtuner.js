@@ -4,7 +4,7 @@ let jquery = fs.readFileSync('./node_modules/jquery/dist/jquery.min.js');
 let couchjs = fs.readFileSync('./assets/couchtuner.js');
 let Couchtuner = function() { };
 
-let jsdomEnv = function(url) {
+let jsenv = function(url) {
   return new Promise((resolve, reject) => {
     jsdom.env({
       url: url,
@@ -19,7 +19,7 @@ let jsdomEnv = function(url) {
 };
 
 Couchtuner.prototype.scrapeTV = function(url) {
-  return jsdomEnv(url).then((window) => {
+  return jsenv(url).then((window) => {
     let anchors = window.$('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a');
 
     return anchors.map((i, anchor) => {
@@ -32,7 +32,7 @@ Couchtuner.prototype.scrapeTV = function(url) {
 };
 
 Couchtuner.prototype.scrapeEpisodes = function(url) {
-  return jsdomEnv(url).then((window) => {
+  return jsenv(url).then((window) => {
     let missed = [];
     let episodes = window.$('.entry > ul > li > strong > a').map((i, anchor) => {
       let name = anchor.innerHTML;
@@ -61,28 +61,38 @@ Couchtuner.prototype.scrapeWatchIt = function(url) {
   if(url.indexOf('http://couch-tuner.city') === 0) {
     return Promise.resolve(url);
   }
-  
-  return jsdomEnv(url).then((window) => {
+
+  return jsenv(url).then((window) => {
     let link = window.$('.entry > p > strong > a')[0].href;
     return link;
   });
 };
 
-
+/*
+  You can call `postTabs_show` only once per jsenv. Need to recusively build DOMs for each anchor
+*/
 Couchtuner.prototype.scrapeEpisodeID = function(url) {
-  return jsdomEnv(url).then((window) => {
-    let videoAnchors = window.$('.entry > ul > li > a');
+  return jsenv(url).then((window) => {
+    let videoAnchors = window.$('.entry > ul > li > a').toArray();
 
     var links = [];
-    videoAnchors.each((i, anchor) => {
-      let parts = anchor.id.split('_');
-      window.postTabs_show(parts[1], parts[0]);
+    var chain = Promise.resolve([]);
+    videoAnchors.forEach((anchor) => {
 
-      let source = window.$('b#ko > iframe').attr('src');
-      links.push(source);
+      chain = chain.then((result) => {
+        return jsenv(url).then((win) => {
+          let parts = anchor.id.split('_');
+          win.postTabs_show(parts[1], parts[0]);
+
+          let source = win.$('b#ko > iframe').attr('src');
+          result.push(source);
+          return result;
+        });
+      });
+
     });
-
-    return links.map(l => l.match(/embed-(\w+)-/)[1]);
+    
+    return chain;
   });
 };
 

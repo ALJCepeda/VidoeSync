@@ -20,7 +20,13 @@ module.exports = {
     videoLinkPreresolved:'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5'
   },
   'scrapeEpisodeID': {
-    videoLinks: [ 'br03hat1bewy' ]
+    videoLinks: [ 'br03hat1bewy' ],
+    duplicates: [
+      'http://thevideo.me/embed-wenckephi41i-540x330.html',
+      'http://youwatch.org/embed-ibe7kezdwows-540x330.html',
+      'http://vodlocker.com/embed-slftjb7tyczg-540x330.html',
+      'http://exashare.com/embed-hznasywzdh85-540x330.html'
+    ]
   },
   'lastFive': {
     listings:

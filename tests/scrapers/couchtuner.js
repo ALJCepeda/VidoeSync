@@ -72,7 +72,18 @@ tape.skip('scrapeEpisodeID', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape('Last Five', (t) => {
+tape('scrapeEpisodeID - duplicates', (t) => {
+  //Gettind duplicate ideas when there more than one video
+  couch.scrapeEpisodeID('http://couch-tuner.city/5/your-family-or-mine-s1-e7-5-stages/').then((result) => {
+    t.deepEqual(
+      result,
+      answers.scrapeEpisodeID.duplicates,
+      'Returns all episode links'
+    );
+  }).catch(t.fail).then(t.end);
+});
+
+tape.skip('Last Five', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
     listings = listings.slice(-5);
 
