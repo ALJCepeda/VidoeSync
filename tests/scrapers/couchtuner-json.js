@@ -1,6 +1,6 @@
 module.exports = {
   'scrapeTV':{
-    numOfListings:603,
+    numOfListings:597,
     firstListing: {
       name: '11.22.63',
       link: 'http://www.couch-tuner.ag/watch-11-22-63-online/'
@@ -10,17 +10,17 @@ module.exports = {
     numOfEpisodes:91,
     numOfMissed:2,
     firstEpisode: {
-      link: 'http://www.couch-tuner.ag/2016/11/the-walking-dead-season-7-episode-5-go-getters/',
+      link: 'http://www.couch-tuner.ag/2016/11/the-walking-dead-season-7-episode-6-swear/',
       season: '7',
-      episode: '5'
+      episode: '6'
     }
   },
   'watchIt': {
     videoLink:'http://couch-tuner.city/5/the-walking-dead-s06-greeting-from-the-set-of-season/',
     videoLinkPreresolved:'http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5'
   },
-  'scrapeEpisodeID': {
-    videoLinks: [ 'br03hat1bewy' ],
+  'scrapeEpisodeLink': {
+    videoLinks: [ 'http://thevideo.me/embed-br03hat1bewy-540x330.html' ],
     duplicates: [
       'http://thevideo.me/embed-wenckephi41i-540x330.html',
       'http://youwatch.org/embed-ibe7kezdwows-540x330.html',

@@ -4,16 +4,14 @@ let jquery = fs.readFileSync('./node_modules/jquery/dist/jquery.min.js');
 let couchjs = fs.readFileSync('./assets/couchtuner.js');
 let Couchtuner = function() { };
 
-let jsenv = function(url) {
+let jsenv = function(str) {
   return new Promise((resolve, reject) => {
-    jsdom.env({
-      url: url,
-      src: [jquery, couchjs],
-      done: (err, window) => {
-        if(err) return reject(err);
+    jsdom.env(str, [], {
+      src:[jquery, couchjs]
+    }, (err, window) => {
+      if(err) return reject(err);
 
-        return resolve(window);
-      }
+      return resolve(window);
     });
   });
 };
@@ -71,8 +69,9 @@ Couchtuner.prototype.scrapeWatchIt = function(url) {
 /*
   You can call `postTabs_show` only once per jsenv. Need to recusively build DOMs for each anchor
 */
-Couchtuner.prototype.scrapeEpisodeID = function(url) {
+Couchtuner.prototype.scrapeEpisodeLink = function(url) {
   return jsenv(url).then((window) => {
+    let html = window.document.documentElement.outerHTML;
     let videoAnchors = window.$('.entry > ul > li > a').toArray();
 
     var links = [];
@@ -80,7 +79,7 @@ Couchtuner.prototype.scrapeEpisodeID = function(url) {
     videoAnchors.forEach((anchor) => {
 
       chain = chain.then((result) => {
-        return jsenv(url).then((win) => {
+        return jsenv(html).then((win) => {
           let parts = anchor.id.split('_');
           win.postTabs_show(parts[1], parts[0]);
 
@@ -91,7 +90,7 @@ Couchtuner.prototype.scrapeEpisodeID = function(url) {
       });
 
     });
-    
+
     return chain;
   });
 };

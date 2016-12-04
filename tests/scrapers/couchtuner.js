@@ -62,22 +62,22 @@ tape.skip('scrapeWatchIt - Preresolved', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeEpisodeID', (t) => {
-  couch.scrapeEpisodeID('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
+tape.skip('scrapeEpisodeLink', (t) => {
+  couch.scrapeEpisodeLink('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
       result,
-      answers.scrapeEpisodeID.videoLinks,
+      answers.scrapeEpisodeLink.videoLinks,
       'Returns all embded video links'
     );
   }).catch(t.fail).then(t.end);
 });
 
-tape('scrapeEpisodeID - duplicates', (t) => {
+tape('scrapeEpisodeLink - duplicates', (t) => {
   //Gettind duplicate ideas when there more than one video
-  couch.scrapeEpisodeID('http://couch-tuner.city/5/your-family-or-mine-s1-e7-5-stages/').then((result) => {
+  couch.scrapeEpisodeLink('http://couch-tuner.city/5/your-family-or-mine-s1-e7-5-stages/').then((result) => {
     t.deepEqual(
       result,
-      answers.scrapeEpisodeID.duplicates,
+      answers.scrapeEpisodeLink.duplicates,
       'Returns all episode links'
     );
   }).catch(t.fail).then(t.end);
@@ -147,7 +147,7 @@ tape.skip('Last Five', (t) => {
       let ids = [];
       watchits[name].forEach((link) => {
         episodeIDs = episodeIDs.then((result) => {
-          return couch.scrapeEpisodeID(link).then((id) => {
+          return couch.scrapeEpisodeLink(link).then((id) => {
             ids.push(id);
             result[name] = ids;
             return result;
