@@ -85,7 +85,7 @@ tape.skip('scrapeEpisodeLink - duplicates', (t) => {
 
 tape('Last Five', (t) => {
   couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
-    listings = listings.slice(-5);
+    listings = listings.slice(-1);
 
     t.deepEqual(
       listings,
@@ -126,9 +126,8 @@ tape('Last Five', (t) => {
       shows[name].episodes.forEach((entry) => {
         watchits = watchits.then((result) => {
           return couch.scrapeWatchIt(entry.link).then((link) => {
-            links.push(link);
-            result[name] = links;
-            return result;
+            entry.link = link;
+            return shows;
           });
         });
       });
@@ -141,16 +140,16 @@ tape('Last Five', (t) => {
       answers.lastFive.watchIts,
       'Converted episode links into watchit links'
     );
+
     let episodeIDs = Promise.resolve({});
 
     for(let name in watchits) {
       let ids = [];
-      watchits[name].forEach((link) => {
+      watchits[name].episodes.forEach((episode) => {
         episodeIDs = episodeIDs.then((result) => {
-          return couch.scrapeEpisodeLink(link).then((id) => {
-            ids.push(id);
-            result[name] = ids;
-            return result;
+          return couch.scrapeEpisodeLink(episode.link).then((id) => {
+            episode.links = id;
+            return watchits;
           });
         });
       });
