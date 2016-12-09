@@ -77,7 +77,6 @@ Couchtuner.prototype.scrapeEpisodeLink = function(url) {
     var links = [];
     var chain = Promise.resolve([]);
     videoAnchors.forEach((anchor) => {
-
       chain = chain.then((result) => {
         return jsenv(html).then((win) => {
           let parts = anchor.id.split('_');
@@ -88,7 +87,6 @@ Couchtuner.prototype.scrapeEpisodeLink = function(url) {
           return result;
         });
       });
-
     });
 
     return chain;
