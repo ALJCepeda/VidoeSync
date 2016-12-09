@@ -14,7 +14,11 @@ let pool = new pg.Pool({
 let couch = new Couchtuner(pool);
 
 tape('syncListings', (t) => {
-  couch.syncListings().then((result) => {
-    console.log(result);
+  couch.syncListings().then((names) => {
+    t.equal(
+      names.length,
+      597,
+      'Number of synced listings'
+    );
   }).catch(t.fail).then(t.end);
 });
