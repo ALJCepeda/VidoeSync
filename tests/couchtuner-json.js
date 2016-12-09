@@ -7,10 +7,10 @@ module.exports = {
     }
   },
   'scrapeEpisodes': {
-    numOfEpisodes:93,
+    numOfEpisodes:91,
     numOfMissed:2,
     firstEpisode: {
-      link: 'http://www.couch-tuner.ag/2016/12/the-walking-dead-season-7-episode-7-sing-me-a-song/',
+      link: 'http://www.couch-tuner.ag/2016/11/the-walking-dead-season-7-episode-6-swear/',
       season: '7',
       episode: '7'
     }

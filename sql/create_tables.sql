@@ -7,6 +7,7 @@ CREATE DATABASE "libertytv"
 \c libertytv;
 
 CREATE TABLE couchtuner_listings (
-  name TEXT PRIMARY KEY,
-  href TEXT
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  href TEXT NOT NULL UNIQUE
 );

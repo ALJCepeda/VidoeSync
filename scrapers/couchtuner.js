@@ -16,7 +16,7 @@ let jsenv = function(str) {
   });
 };
 
-Couchtuner.prototype.scrapeTV = function(url) {
+Couchtuner.prototype.scrapeListings = function(url) {
   return jsenv(url).then((window) => {
     let anchors = window.$('div[style="width: 160px; padding-right: 20px; float: left;"] > ul > li > strong > a');
 

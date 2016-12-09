@@ -1,25 +1,25 @@
 let tape = require('tape');
 let Couchtuner = require('../../scrapers/couchtuner');
-let answers = require('./couchtuner-json');
+let answers = require('./couchtuner-json.js');
 let couch = new Couchtuner();
 
-tape.skip('scrapeTV', (t) => {
-  couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
+tape('scrapeListings', (t) => {
+  couch.scrapeListings('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
     t.equal(
       anchors.length,
-      answers.scrapeTV.numOfListings,
+      answers.scrapeListings.numOfListings,
       'Number of tv listings'
     );
 
     t.deepEqual(
       anchors[0],
-      answers.scrapeTV.firstListing,
+      answers.scrapeListings.firstListing,
       'First listing returned by couchtuner'
     );
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeEpisodes', (t) => {
+tape('scrapeEpisodes', (t) => {
   couch.scrapeEpisodes('http://www.couch-tuner.ag/watch-the-walking-dead-online-streamin').then((result) => {
     t.equal(
       result.episodes.length,
@@ -41,7 +41,7 @@ tape.skip('scrapeEpisodes', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeWatchIt', (t) => {
+tape('scrapeWatchIt', (t) => {
   couch.scrapeWatchIt('http://www.couch-tuner.ag/2015/09/the-walking-dead-s06-greeting-from-the-set-of-season').then((result) => {
     t.equal(
       result,
@@ -51,7 +51,7 @@ tape.skip('scrapeWatchIt', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeWatchIt - Preresolved', (t) => {
+tape('scrapeWatchIt - Preresolved', (t) => {
   //Sometimes `scrapeEpisodes` returns a watchit link
   couch.scrapeWatchIt('http://couch-tuner.city/5/your-pretty-face-is-going-to-hell-s1e5').then((result) => {
     t.equal(
@@ -62,7 +62,7 @@ tape.skip('scrapeWatchIt - Preresolved', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeEpisodeLink', (t) => {
+tape('scrapeEpisodeLink', (t) => {
   couch.scrapeEpisodeLink('http://couch-tuner.city/5/the-walking-dead-s2-e7-pretty-much-dead-already/').then((result) => {
     t.deepEqual(
       result,
@@ -72,7 +72,7 @@ tape.skip('scrapeEpisodeLink', (t) => {
   }).catch(t.fail).then(t.end);
 });
 
-tape.skip('scrapeEpisodeLink - duplicates', (t) => {
+tape('scrapeEpisodeLink - duplicates', (t) => {
   //Gettind duplicate ideas when there more than one video
   couch.scrapeEpisodeLink('http://couch-tuner.city/5/your-family-or-mine-s1-e7-5-stages/').then((result) => {
     t.deepEqual(
@@ -84,7 +84,7 @@ tape.skip('scrapeEpisodeLink - duplicates', (t) => {
 });
 
 tape('Last Five', (t) => {
-  couch.scrapeTV('http://www.couch-tuner.ag/tv-lists').then((listings) => {
+  couch.scrapeListings('http://www.couch-tuner.ag/tv-lists').then((listings) => {
     listings = listings.slice(-1);
 
     t.deepEqual(

@@ -1,12 +1,12 @@
 let Scraper = require('../scrapers/couchtuner');
 
 let Couchtuner = function(pool) {
-  this.scraper = new Scraper('http://www.couch-tuner.ag/');
+  this.scraper = new Scraper();
   this.pool = pool;
 };
 
-Couchtuner.prototype.syncTV = function() {
-  return this.scraper.scrapeTV('tv-lists').then((anchors) => {
+Couchtuner.prototype.syncListings = function() {
+  return this.scraper.scrapeListings('http://www.couch-tuner.ag/tv-lists').then((anchors) => {
     var chain = Promise.resolve();
 
     anchors.forEach((anchor) => {
