@@ -10,7 +10,7 @@ Couchtuner.prototype.syncListings = function() {
     var chain = Promise.resolve([]);
 
     anchors.forEach((anchor) => {
-      chain = chain.then((names) => {
+      chain = chain.then((listings) => {
         return new Promise((resolve, reject) => {
           this.pool.connect((err, client, done) => {
             if(err) return reject(err);
@@ -22,12 +22,13 @@ Couchtuner.prototype.syncListings = function() {
                           RETURNING id`, [anchor.name, anchor.link], (err, res) => {
               if(err) return reject(err);
 
-              names.push({
+              listings.push({
                 id:res.rows[0].id,
                 name:anchor.name
+                href:anchor.href
               });
               done();
-              return resolve(names);
+              return resolve(listings);
             });
           });
         });
@@ -37,5 +38,34 @@ Couchtuner.prototype.syncListings = function() {
     return chain;
   });
 };
+
+Couchtuner.prototype.fetchListings = function() {
+  return new Promise((resolve, reject) => {
+    this.pool.connect((err, client, done) => {
+      if(err) reject(err);
+
+      client.query('SELECT id, name, href FROM couchtuner_listings', (err, res) => {
+        if(err) return reject(err);
+
+        return resolve(res.rows.map((row) => {
+          return {id:row.id, name:row.name, href:row.href};
+        }));
+      });
+    });
+  });
+};
+
+Couchtuner.prototype.syncEpisodes = function(listings) {
+  var sync;
+  if(typeof listings === 'undefined') {
+    sync = this.fetchListings();
+  } else {
+    sync = Promise.resolve(listings);
+  }
+
+  return sync.then((listings) => {
+    console.log(listings);
+  });
+}
 
 module.exports = Couchtuner;

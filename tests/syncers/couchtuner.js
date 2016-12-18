@@ -13,12 +13,18 @@ let pool = new pg.Pool({
 });
 let couch = new Couchtuner(pool);
 
-tape('syncListings', (t) => {
-  couch.syncListings().then((names) => {
+tape.skip('syncListings', (t) => {
+  couch.syncListings().then((listings) => {
     t.equal(
-      names.length,
+      listings.length,
       597,
       'Number of synced listings'
     );
+  }).catch(t.fail).then(t.end);
+});
+
+tape('synceEpisodes', (t) => {
+  couch.syncEpisodes().then(() => {
+    t.pass('Synced all episodes');
   }).catch(t.fail).then(t.end);
 });
